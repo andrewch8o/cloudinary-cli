@@ -1,6 +1,27 @@
 """ POC module to yield media files from configs for the `cld sync` routine tests
 """
 
+class CONFIG_FIELDS:
+    '''Defines field names in test configuration file.'''
+    asset_path = 'asset_rel_path'
+
+def read_config(config_file_path):
+    '''Reads config file.
+
+    Config file is assumed to be a CSV file having at least a `CONFIG_FIELDS.asset_path` column
+
+    Parameters
+    ----------
+    config_file_path: str
+        Path to the configuration file
+
+    Yields
+    -------
+    dict
+        Config record.
+    '''
+    pass
+
 def add_exif_comment(media_file_path):
     '''Adds file path as the UserComment EXIF property to the media file. 
     
