@@ -1,6 +1,13 @@
 """ POC module to yield media files from configs for the `cld sync` routine tests
 """
 import csv
+from pathlib import Path
+
+class CONFIG:
+    '''Defines module configuration'''
+    root_dir = Path(__file__).resolve()
+    media_template = Path.joinpath(root_dir,"default_asset_file.jpg")
+
 
 class CONFIG_FIELDS:
     '''Defines field names in test configuration file.'''
@@ -25,6 +32,18 @@ def read_config(config_file_path):
         reader = csv.DictReader(csvfile)
         for config_record in reader:
             yield config_record
+
+def yield_files_from_config(config_file_path, root_folder):
+    '''Yields new files at the specified location according to config
+
+    Parameters
+    ----------
+    config_file_path: str
+        Path to the configuration file
+    root_folder: str
+        Root folder path to yield new files under
+    '''
+    pass
 
 def add_exif_comment(media_file_path):
     '''Adds file path as the UserComment EXIF property to the media file. 
