@@ -1,4 +1,12 @@
 ```python
+# Exif stuff
+# https://en.wikipedia.org/wiki/Exif
+# https://stackoverflow.com/questions/9542359/does-png-contain-exif-data-like-jpg
+
+# Go over add_exif_comment in the yield_local_media_files.py module
+```
+
+```python
 cd sync_test_poc/
 
 import logging
