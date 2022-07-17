@@ -5,6 +5,7 @@ import csv
 import piexif
 import shutil
 import logging
+import hashlib
 from pathlib import Path
 
 class CONFIG:
@@ -50,10 +51,13 @@ def yield_files_from_config(config_file_path, root_folder):
     for config_record in read_config(config_file_path):
         try:
             new_file_rel_path = config_record[CONFIG_FIELDS.asset_path]
-            yield_local_media_file(
+            new_file_abs_path = yield_local_media_file(
                 root_folder              = root_folder,
                 relative_file_path       = new_file_rel_path,
                 template_media_file_path = CONFIG.media_template)
+            with open(new_file_abs_path, 'rb') as new_file:
+                md5_digest = hashlib.md5(new_file.read()).hexdigest()
+            logging.info(f"NEW: MD5:'{md5_digest}' -- '{new_file_abs_path}'")
         except:
             logging.exception(f"Failed to instantiate '{new_file_rel_path}' from config file '{config_file_path}'")
 
