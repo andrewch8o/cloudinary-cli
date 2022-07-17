@@ -1,6 +1,7 @@
 """ POC module to yield media files from configs for the `cld sync` routine tests
 """
 import csv
+import piexif
 from pathlib import Path
 
 class CONFIG:
@@ -56,7 +57,10 @@ def add_exif_comment(media_file_path):
     media_file_path : str
         Path to the media file.
     '''
-    pass
+    exif_dict = piexif.load(media_file_path)
+    exif_dict['Exif'][piexif.ExifIFD.UserComment] = media_file_path.encode()
+    exif_bytes = piexif.dump(exif_dict)
+    piexif.insert(exif_bytes, media_file_path)
 
 def yield_local_media_file(root_folder, relative_file_path, template_media_file_path):
     '''Yields a media file at a given path by copying the template file and modifying a copy.
