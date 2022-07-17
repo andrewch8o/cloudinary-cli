@@ -85,6 +85,11 @@ def yield_local_media_file(root_folder, relative_file_path, template_media_file_
         File path for the new file to create (relative to the `root_folder`).
     template_media_file_path: str
         Full path to the media file used as a template.
+
+    Returns
+    -------
+    str
+        Absolute path of the newly created file
     '''
     src_file_pathobj = Path(template_media_file_path).resolve()
     dest_file_pathobj = Path(root_folder).joinpath(relative_file_path).resolve()
@@ -98,3 +103,5 @@ def yield_local_media_file(root_folder, relative_file_path, template_media_file_
     shutil.copy(src_file_path, dest_file_path)
 
     add_exif_comment(dest_file_path)
+
+    return dest_file_path
