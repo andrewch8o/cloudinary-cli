@@ -1,5 +1,6 @@
 """ POC module to yield media files from configs for the `cld sync` routine tests
 """
+import os
 import csv
 import piexif
 import shutil
@@ -91,7 +92,9 @@ def yield_local_media_file(root_folder, relative_file_path, template_media_file_
     # Python <= 3.7 support https://stackoverflow.com/questions/33625931/copy-file-with-pathlib-in-python
     src_file_path = str(src_file_pathobj)
     dest_file_path = str(dest_file_pathobj)
+    dest_folder_path = str(dest_file_pathobj.parent)
 
+    os.makedirs(dest_folder_path, exist_ok=True)
     shutil.copy(src_file_path, dest_file_path)
 
     add_exif_comment(dest_file_path)
