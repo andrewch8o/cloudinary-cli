@@ -2,6 +2,7 @@
 """
 import csv
 import piexif
+import shutil
 from pathlib import Path
 
 class CONFIG:
@@ -74,4 +75,13 @@ def yield_local_media_file(root_folder, relative_file_path, template_media_file_
     template_media_file_path: str
         Full path to the media file used as a template.
     '''
-    pass
+    src_file_pathobj = Path(template_media_file_path).resolve()
+    dest_file_pathobj = Path(root_folder).joinpath(relative_file_path).resolve()
+
+    # Python <= 3.7 support https://stackoverflow.com/questions/33625931/copy-file-with-pathlib-in-python
+    src_file_path = str(src_file_pathobj)
+    dest_file_path = str(dest_file_pathobj)
+
+    shutil.copy(src_file_path, dest_file_path)
+
+    add_exif_comment(dest_file_path)
