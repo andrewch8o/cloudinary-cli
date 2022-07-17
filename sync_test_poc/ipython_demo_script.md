@@ -23,5 +23,8 @@ yield_files_from_config(
 # Current test solution has same MD5 digest for 
 # each file (media asset)
 cd test/resources/test_sync
-find . -type f -exec md5 {} \;
+find . -type f -exec md5 -r {} \;
+
+# The POV approach
+find ./local-test-files/ -type f -exec md5 -r {} \;
 ```
