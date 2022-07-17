@@ -62,7 +62,7 @@ def yield_files_from_config(config_file_path, root_folder):
             logging.exception(f"Failed to instantiate '{new_file_rel_path}' from config file '{config_file_path}'")
 
 
-def add_exif_comment(media_file_path):
+def add_exif_comment(media_file_path, value):
     '''Adds file path as the UserComment EXIF property to the media file. 
     
     The media file is assumed to be in the format that supports EXIF properties
@@ -72,9 +72,11 @@ def add_exif_comment(media_file_path):
     ----------
     media_file_path : str
         Path to the media file.
+    value : str
+        Value to be set for the UserComment Exif property
     '''
     exif_dict = piexif.load(media_file_path)
-    exif_dict['Exif'][piexif.ExifIFD.UserComment] = media_file_path.encode()
+    exif_dict['Exif'][piexif.ExifIFD.UserComment] = value.encode()
     exif_bytes = piexif.dump(exif_dict)
     piexif.insert(exif_bytes, media_file_path)
 
@@ -106,6 +108,8 @@ def yield_local_media_file(root_folder, relative_file_path, template_media_file_
     os.makedirs(dest_folder_path, exist_ok=True)
     shutil.copy(src_file_path, dest_file_path)
 
-    add_exif_comment(dest_file_path)
+    add_exif_comment(
+        media_file_path=dest_file_path, 
+        value=relative_file_path)
 
     return dest_file_path
