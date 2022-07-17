@@ -8,7 +8,7 @@ from pathlib import Path
 
 class CONFIG:
     '''Defines module configuration'''
-    root_dir = Path(__file__).resolve()
+    root_dir = Path(__file__).parent.resolve()
     media_template = Path.joinpath(root_dir,"default_asset_file.jpg")
 
 
