@@ -3,6 +3,7 @@
 import csv
 import piexif
 import shutil
+import logging
 from pathlib import Path
 
 class CONFIG:
@@ -45,7 +46,16 @@ def yield_files_from_config(config_file_path, root_folder):
     root_folder: str
         Root folder path to yield new files under
     '''
-    pass
+    for config_record in read_config(config_file_path):
+        try:
+            new_file_rel_path = config_record[CONFIG_FIELDS.asset_path]
+            yield_local_media_file(
+                root_folder              = root_folder,
+                relative_file_path       = new_file_rel_path,
+                template_media_file_path = CONFIG.media_template)
+        except:
+            logging.exception(f"Failed to instantiate '{new_file_rel_path}' from config file '{config_file_path}'")
+
 
 def add_exif_comment(media_file_path):
     '''Adds file path as the UserComment EXIF property to the media file. 
